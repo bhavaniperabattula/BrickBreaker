@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+    box-sizing: border-box;
+}
+
+body {
+     background: rgba(30, 60, 114, 0.9);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Arial', 'Helvetica', sans-serif;
+    min-height: 100vh;
+    margin: 0;
+}
+
+/* Rules button  */
+.rules-btn {
+    position: absolute;
+    top: 30px;
+    left: 30px;
+}
+
+/* Rules to play the game */
+.rules {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: #333;
+    color: white;
+    min-height: 100vh;
+    width: 400px;
+    padding: 20px;
+    line-height: 1.5;
+    transform: translateX(-400px);
+    transition: transform 0.5s ease-in-out;
+}
+.rules.show {
+    transform: translateX(0);
+}
+
+/* close button  */
+.btn {
+    cursor: pointer;
+    border: 0;
+    padding: 12px 25px;
+    background-color: #4CAF50; 
+    color: white;
+    border-radius: 5px;
+    transition: background 0.3s ease;
+}
+
+.btn:focus {
+    outline: 0;
+}
+
+.btn:hover {
+    background: #a06245; 
+}
+
+canvas {
+    background: linear-gradient(to right, #f0f0f0, #e0e0e0);
+    display: block;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    
+}
+
+h1 {
+    font-size: 48px;
+    color: white;
+}
+
+.game-wrapper {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+.start {
+    position: absolute;
+    top: 320px;
+   
+    color: white;
+    
+    padding-top: 50px;
+    border-radius: 10px;
+    text-align: center;
+    animation: pop-in 0.5s ease-in-out;
+    width: 350px;
+    height: 75px;
+}
+
+.start-btn {
+    cursor: pointer;
+    border: 0;
+    padding: 10px 25px;
+    background: linear-gradient(45deg, #ff9800, #ffc107);
+    color: white;
+    border-radius: 5px;
+    width: 220px;
+    font-size: 24px;
+    height: auto;
+    transition: background 0.3s ease;
+ 
+}
+
+.start-btn:focus {
+    outline: 0;
+}
+
+.start-btn:hover {
+    background: linear-gradient(45deg, #f57c00, #ffb300);
+}
+.difficulty {
+    position: absolute;
+    display: none;
+    top: 350px;
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+    padding: 20px 50px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    text-align: center;
+    animation: pop-in 0.5s ease-in-out;
+    font-size: 20px;
+}
+.diff-btn {
+    cursor: pointer;
+    border: 0;
+    padding: 12px 25px;
+    background-color: #4CAF50;
+    color: white;
+    border-radius: 5px;
+    font-size: 20px;
+    height: auto;
+    transition: background 0.3s ease;
+}
+
+.diff-btn:focus {
+    outline: 0;
+}
+
+.diff-btn:hover {
+    background: #45a049;
+}
+
+.lose, .win {
+    display: none;
+    position: absolute;
+    top: 250px;
+    background: rgba(0, 159, 221, 0.9);
+    color: white;
+    padding: 20px 50px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    text-align: center;
+    animation: pop-in 0.5s ease-in-out;
+}
+/* 
+.win {
+    background: rgba(0, 155, 119, 0.9);
+} */
+
+@keyframes pop-in {
+    from {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@media (max-width: 576px) {
+    /* Adjust the body */
+    body {
+        padding: 10px;
+        flex-direction: column;
+        height: 100%;
+    }
+
+    /* Make the heading smaller */
+    .heading {
+        font-size: 25px;
+    }
+
+    /* Adjust the rules panel */
+    .rules {
+        width: 100%;
+        min-height: 100vh;
+        transform: translateX(-100%);
+        padding: 15px;
+    }
+
+    /* Canvas size for smaller screens */
+    #canvas {
+        width: 100%;
+        height: auto;
+        border-radius: 5px;
+    }
+
+    /* Adjust start button position */
+    .start {
+        top: 120px; /* Move it just below the Show Rules button */
+        bottom: auto;
+        width: 100%;
+    }
+   
+    /* Difficulty buttons container */
+    .difficulty {
+        top: 160px; 
+        width: 60%;
+        padding: 15px 30px;
+        font-size: 12px;
+    }
+
+    /* Game over and win notifications */
+    .lose, .win {
+        width: 70%;
+        padding: 15px;
+        top: 200px;
+    }
+
+    /* Adjust brick and paddle sizes */
+    .rules-btn {
+        top: 100px;
+        font-size: 15px;
+        padding: 10px 16px;
+        width: 160px;
+    }
+
+    /* Start button */
+    .start-btn {
+        width: 180px;
+        font-size: 18px;
+    }
+
+    /* Difficulty buttons */
+    .diff-btn {
+        font-size: 13px;
+        padding: 10px 12px;
+        margin-bottom: 7px;
+    }
+
+    /* Canvas height increase for smaller screens */
+    #canvas {
+        width: 100%;
+        height: 350px; /* Increase the height as needed */
+    }
+
+    /* Paddle adjustment */
+    .paddle {
+        width: 50%;
+        margin-bottom: 10px;
+    }
+}
+
+
+    </style>
+</head>
+<body>
+    <body>
+        <h1 class="heading">Brick Breaker Game</h1>
+        <button id="rules-btn" class="btn rules-btn">Show Rules</button>
+        <div id="rules" class="rules">
+            <h2>How to Play?</h2>
+            <p> Use your right and left keys to move the paddle to bounce the ball up and break the blocks.</p> 
+            <p> If you miss the ball, your score and the blocks will reset.</p>
+            <button id="close-btn" class="btn">Close</button>
+        </div>
+        <div class="game-wrapper">
+            <div class="main"></div>
+                <div id="start" class="start">
+                    <button class="start-btn" onclick="startGame()">Start Game</button>
+                </div>
+                <div id="difficulty" class="difficulty">
+                    <p>Choose Difficulty level</p>
+                    <button class="diff-btn" onclick="easyMode()">Easy</button>
+                    <button class="diff-btn" onclick="mediumMode()">Medium</button>
+                    <button class="diff-btn" onclick="hardMode()">Hard</button>
+                </div>
+                <div class="lose">
+                    <h2>GAME OVER</h2>
+                    <h3>Better luck next time!</h3>
+                    
+                    <button class="btn" onclick="window.location.reload()">Restart</button>
+                </div>
+                <div class="win">
+                    <h2>YOU WIN! Congratulations</h2>
+                    <!-- <h3>Winner winner chicken dinner!</h3> -->
+                    <button class="btn" onclick="window.location.reload()">Restart</button>
+                </div>
+        </div>
+        <canvas id="canvas" width="750" height="520"></canvas>
+        
+        <script>
+const rulesBtn = document.getElementById('rules-btn');
+const closeBtn = document.getElementById('close-btn');
+const rules = document.getElementById('rules');
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+const diffBtn = document.getElementById('difficulty');
+ const startBtn = document.querySelector('.start');
+rulesBtn.addEventListener('click', () => {
+            rules.classList.add('show');
+            startBtn.style.display = 'none'; 
+            document.getElementById('difficulty').style.display = 'none';// Hide the Start Game button when rules are shown
+        });
+
+        closeBtn.addEventListener('click', () => {
+            rules.classList.remove('show');
+            startBtn.style.display = 'block'; // Show the Start Game button when rules are closed
+        });
+let score = 0;
+let lives = 3;
+let brickRowCount = 9;
+let brickColumnCount = 5;
+
+
+isGameActive = false; // Set game active
+
+//Create ball props
+const ball = {
+    x : canvas.width/2,
+    y : canvas.height/1.06,
+    size : 9,
+    speed : 0,
+    dx : 0,
+    dy : 0
+}
+
+// Starts the game
+function startGame(){
+    const startBtn = document.getElementById('start');
+    console.log("Game Started!");
+    startBtn.style.display = 'none';
+    diffBtn.style.display = 'block';
+}
+
+// Hides Difficulty div
+function hideDiff(){
+    diffBtn.style.display = 'none';
+}
+
+function createEasyBricks() {
+    brickRowCount = 5;
+    brickColumnCount = 9;
+    bricks.length = 0; // Clear existing bricks
+
+    for (let i = 0; i < brickRowCount; i++) {
+        bricks[i] = [];
+
+        for (let j = 0; j < brickColumnCount; j++) {
+            // Create a checkerboard pattern by making every alternate brick visible
+            const isBrickVisible = (i + j) % 2 === 0;
+
+            const x = j * (brickInfo.w + brickInfo.padding) + brickInfo.offsetX;
+            const y = i * (brickInfo.h + brickInfo.padding) + brickInfo.offsetY;
+            bricks[i][j] = { x, y, ...brickInfo, visible: isBrickVisible };
+        }
+    }
+}
+
+
+// Function to create a Zigzag pattern for Medium mode
+function createMediumBricks() {
+    brickRowCount = 6;
+    brickColumnCount = 8;
+    bricks.length = 0; // Clear existing bricks
+
+    for (let i = 0; i < brickRowCount; i++) {
+        bricks[i] = [];
+        for (let j = 0; j < brickColumnCount; j++) {
+            const x = j * (brickInfo.w + brickInfo.padding) + brickInfo.offsetX;
+            const y = i * (brickInfo.h + brickInfo.padding) + brickInfo.offsetY;
+            // Create a zigzag pattern by making every other brick row offset
+            const offset = i % 2 === 0 ? 0 : (brickInfo.w + brickInfo.padding) / 2;
+            bricks[i][j] = { x: x + offset, y, ...brickInfo, visible: true };
+        }
+    }
+}
+
+// Function to create a Diamond shape for Hard mode
+function createHardBricks() {
+    brickRowCount = 10;
+    brickColumnCount = 9;
+    bricks.length = 0; // Clear existing bricks
+   
+
+    for (let i = 0; i < brickRowCount; i++) {
+        bricks[i] = [];
+        const middle = Math.floor(brickRowCount / 2);
+        const bricksInRow = i <= middle ? i + 1 : brickRowCount - i;
+        const offset = (brickColumnCount - bricksInRow) * (brickInfo.w + brickInfo.padding) / 2;
+
+        for (let j = 0; j < bricksInRow; j++) {
+            const x = j * (brickInfo.w + brickInfo.padding) + brickInfo.offsetX + offset;
+            const y = i * (brickInfo.h + brickInfo.padding) + brickInfo.offsetY;
+            bricks[i][j] = { x, y, ...brickInfo, visible: true };
+        }
+    }
+}
+// Easy Mode
+function easyMode(){
+    createEasyBricks();
+    ball.speed = 3.5,
+    ball.dx = 4,
+    ball.dy = -4,
+    hideDiff();
+    isGameActive = true; // Set game active
+    
+    update();
+}
+
+// Medium Mode
+function mediumMode(){
+    createMediumBricks();
+    ball.speed = 4.8,
+    ball.dx = 5.2,
+    ball.dy = -5.2,
+    hideDiff();
+    isGameActive = true; // Set game active
+    update();
+}
+
+// Difficulty Mode
+function hardMode(){
+    createHardBricks();
+    ball.speed = 5.6,
+    ball.dx = 5.9,
+    ball.dy = -5.9,
+    hideDiff();
+    isGameActive = true; // Set game active
+    update();
+}
+
+
+// Create Paddle Props
+const paddle = {
+    x: canvas.width/2 - 40,
+    y: canvas.height - 20,
+    w : 73,
+    h : 9,
+    speed : 8,
+    dx: 0
+}
+
+// Create Brick Props
+const brickInfo = {
+    w : 65,
+    h : 18,
+    padding : 9,
+    offsetX : 45,
+    offsetY : 60,
+    visible : true
+}
+
+//Create Bricks 
+const bricks = [];
+for(let i = 0;i<brickRowCount;i++){
+    bricks[i] = [];
+    for(let j = 0;j<brickColumnCount;j++){
+        const x = i * (brickInfo.w + brickInfo.padding) + brickInfo.offsetX;
+        const y = j * (brickInfo.h + brickInfo.padding) + brickInfo.offsetY;
+        bricks[i][j] = {x,y, ...brickInfo}        
+    }
+}
+
+//Draw ball on canvas
+function drawBall(){
+    ctx.beginPath();
+    ctx.arc(ball.x,ball.y,ball.size,0,Math.PI*2);
+    ctx.fillStyle = 'SaddleBrown';
+    ctx.fill();
+    ctx.closePath();
+}
+
+//Draw paddle on canvas
+function drawPaddle(){
+    ctx.beginPath();
+    ctx.rect(paddle.x,paddle.y,paddle.w,paddle.h);
+    ctx.fillStyle = 'DarkSlateGrey';
+    ctx.fill();
+    ctx.closePath();
+}
+
+//Draw Score on canvas
+function drawScore(){
+    ctx.font = '20px Arial',
+    ctx.fillText(`Score : ${score}`,canvas.width-100,30);
+}
+
+function drawLives() {
+            ctx.font = '20px Arial';
+            ctx.fillText(`Lives: ${lives}`, canvas.width - 730, 30);
+        }
+
+//Move Paddle on canvas
+function movePaddle() {
+    paddle.x += paddle.dx;
+
+    // Wall Detection
+    if(paddle.x + paddle.w > canvas.width){
+        paddle.x = canvas.width - paddle.w;
+    }
+
+    if(paddle.x < 0){
+        paddle.x = 0;
+    }
+}
+
+// Move ball on canvas
+function moveBall(){
+    ball.x += ball.dx;
+    ball.y += ball.dy;
+
+    // Wall collision (right/left)
+    if(ball.x + ball.size > canvas.width || ball.x - ball.size < 0){
+        ball.dx*= -1;
+    }
+
+    // Wall collision (right/left)
+    if(ball.y + ball.size > canvas.height || ball.y - ball.size < 0){
+        ball.dy*= -1;
+    }
+
+    // Paddle collision
+    if(ball.x - ball.size > paddle.x && ball.x + ball.size < paddle.x + paddle.w && ball.y + ball.size > paddle.y){
+        ball.dy = -ball.speed;
+    }
+
+    // Brick collision
+    bricks.forEach(column =>{
+        column.forEach(brick =>{
+            if(brick.visible){
+                if(ball.x - ball.size > brick.x &&   //left brick side check
+                   ball.x + ball.size < brick.x + brick.w &&  //right brick side check
+                   ball.y + ball.size > brick.y &&   // top brick side check
+                   ball.y - ball.size < brick.y + brick.h  //bottom brick side
+                )
+                {
+                    ball.dy *= -1;
+                    brick.visible = false;
+                    
+                    increaseScore();
+                }
+                
+            }
+           
+        });
+    });
+    
+    if (ball.y + ball.size > canvas.height) {
+                lives--;
+                if (lives === 0) {
+                    
+                    document.querySelector(".lose").style.display = "block";
+                    document.querySelector(".lose h3").textContent = `Your Score: ${score}`;
+                    resetGame();
+                    isGameActive = false;
+                } else {
+                    resetBall();
+                }
+            }
+           
+
+        function resetBall() {
+            ball.x = canvas.width / 2;
+            ball.y = canvas.height / 1.06;
+            ball.dx = 4;
+            ball.dy = -4;
+        }
+
+        function resetGame() {
+            score = 0;
+            lives = 3;
+            resetBall(); // Reset ball position
+            showAllBricks();
+        }  
+        
+
+    // Hit bottom wall - Lose
+    if(ball.y + ball.size > canvas.height){
+        score = 0;
+        
+        showAllBricks();
+        pauseBall();
+        pausePaddle();
+        
+        document.querySelector(".lose").style.display = "block";
+    }
+}
+
+
+// Pause the ball after losing
+function pauseBall(){
+    ball.speed = 0;
+    ball.dx = 0;
+    ball.dy = 0;
+    
+}
+
+// Pause the ball after losing
+function pausePaddle(){
+    paddle.speed = 0;
+    paddle.dx = 0;
+    paddle.dy=0;
+}
+
+//Increase Score
+function increaseScore(){
+    score++;
+
+    if(score % (brickRowCount*brickColumnCount) === 0){
+        showAllBricks();
+        document.querySelector(".win").style.display = "block";
+        isGameActive = false;
+    }
+}
+
+// Make all bricks appear 
+function showAllBricks(){
+    bricks.forEach(column =>{
+        column.forEach(brick=>{
+            brick.visible = true;
+        });
+    });
+}
+
+//Draw everything
+function draw() {
+    //clear canvas
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+
+    drawBall();
+    drawPaddle();
+    drawScore();
+    drawLives();
+    drawBricks();
+}
+drawBricks();
+//Update canvas drawing and animation
+function update(){
+    if (!isGameActive) return;
+    movePaddle();
+    moveBall();
+    //Draw everything
+    draw();
+   
+    requestAnimationFrame(update);
+}
+update();
+draw();
+
+
+//Keydown event
+function keyDown(e){
+    if(e.key === 'Right' || e.key === 'ArrowRight') {
+        paddle.dx = paddle.speed;
+    }
+    else if(e.key === 'Left' || e.key === 'ArrowLeft'){
+        paddle.dx = -paddle.speed;
+    }
+}
+
+function keyUp(e){
+    if(e.key === 'Right' || e.key === 'ArrowRight' || e.key === 'Left' || e.key === 'ArrowLeft') {
+        paddle.dx = 0;
+    }
+
+}
+//Keyboard event handlers
+document.addEventListener('keydown',keyDown);
+document.addEventListener('keyup',keyUp);
+
+//Rules and close event handlers
+rulesBtn.addEventListener('click',()=>
+rules.classList.add('show'));
+
+
+closeBtn.addEventListener('click',()=>
+rules.classList.remove('show'));
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+function drawBricks() {
+    bricks.forEach((column, rowIndex) => {
+        column.forEach(brick => {
+            ctx.beginPath();
+            ctx.rect(brick.x, brick.y, brick.w, brick.h);
+            // Set different colors for each row
+            if (brick.visible) {
+                if (rowIndex % 3 === 0) {
+                    ctx.fillStyle = '#DC143C'; // Red color for every third row
+                } else if (rowIndex % 3 === 1) {
+                    ctx.fillStyle = 'Indigo'; // Green color for every second row
+                } else {
+                    ctx.fillStyle = 'Teal'; // Blue color for every other row
+                }
+            } else {
+                ctx.fillStyle = 'transparent';
+            }
+            ctx.fill();
+            ctx.closePath();
+        });
+    });
+}
+createEasyBricks();
+
+
+        </script>
+   
+</body>
+</html>
