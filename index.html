@@ -662,6 +662,20 @@ function update(){
 update();
 draw();
 
+canvas.addEventListener('touchmove', (e) => {
+    const touchX = e.touches[0].clientX;
+    const canvasRect = canvas.getBoundingClientRect();
+    const relativeX = touchX - canvasRect.left;
+    paddle.x = relativeX - paddle.w / 2;
+
+    // Prevent the paddle from going out of bounds
+    if (paddle.x < 0) {
+        paddle.x = 0;
+    } else if (paddle.x + paddle.w > canvas.width) {
+        paddle.x = canvas.width - paddle.w;
+    }
+});
+
 
 //Keydown event
 function keyDown(e){
