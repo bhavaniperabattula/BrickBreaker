@@ -16,14 +16,14 @@ body {
     align-items: center;
     justify-content: center;
     font-family: 'Arial', 'Helvetica', sans-serif;
-    min-height: 100vh;
+    min-height: 94vh;
     margin: 0;
 }
 
 /* Rules button  */
 .rules-btn {
     position: absolute;
-    top: 30px;
+    top: 35px;
     left: 30px;
 }
 
@@ -69,8 +69,7 @@ canvas {
     display: block;
     border-radius: 10px;
     margin-bottom: 20px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-    
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);  
 }
 
 h1 {
@@ -87,10 +86,8 @@ h1 {
 }
 .start {
     position: absolute;
-    top: 320px;
-   
-    color: white;
-    
+    top: 350px;
+    color: white; 
     padding-top: 50px;
     border-radius: 10px;
     text-align: center;
@@ -165,10 +162,6 @@ h1 {
     text-align: center;
     animation: pop-in 0.5s ease-in-out;
 }
-/* 
-.win {
-    background: rgba(0, 155, 119, 0.9);
-} */
 
 @keyframes pop-in {
     from {
@@ -200,6 +193,7 @@ h1 {
         min-height: 100vh;
         transform: translateX(-100%);
         padding: 15px;
+     
     }
 
     /* Canvas size for smaller screens */
@@ -237,6 +231,10 @@ h1 {
         font-size: 15px;
         padding: 10px 16px;
         width: 160px;
+        flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     }
 
     /* Start button */
@@ -662,21 +660,6 @@ function update(){
 update();
 draw();
 
-canvas.addEventListener('touchmove', (e) => {
-    const touchX = e.touches[0].clientX;
-    const canvasRect = canvas.getBoundingClientRect();
-    const relativeX = touchX - canvasRect.left;
-    paddle.x = relativeX - paddle.w / 2;
-
-    // Prevent the paddle from going out of bounds
-    if (paddle.x < 0) {
-        paddle.x = 0;
-    } else if (paddle.x + paddle.w > canvas.width) {
-        paddle.x = canvas.width - paddle.w;
-    }
-});
-
-
 //Keydown event
 function keyDown(e){
     if(e.key === 'Right' || e.key === 'ArrowRight') {
@@ -696,6 +679,20 @@ function keyUp(e){
 //Keyboard event handlers
 document.addEventListener('keydown',keyDown);
 document.addEventListener('keyup',keyUp);
+
+canvas.addEventListener('touchmove', (e) => {
+    const touchX = e.touches[0].clientX;
+    const canvasRect = canvas.getBoundingClientRect();
+    const relativeX = touchX - canvasRect.left;
+    paddle.x = relativeX - paddle.w / 2;
+
+    // Prevent the paddle from going out of bounds
+    if (paddle.x < 0) {
+        paddle.x = 0;
+    } else if (paddle.x + paddle.w > canvas.width) {
+        paddle.x = canvas.width - paddle.w;
+    }
+});
 
 //Rules and close event handlers
 rulesBtn.addEventListener('click',()=>
