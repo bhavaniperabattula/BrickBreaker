@@ -411,7 +411,7 @@ function createHardBricks() {
 // Easy Mode
 function easyMode(){
     createEasyBricks();
-    ball.speed = 3.5,
+    ball.speed = 2.5,
     ball.dx = 4,
     ball.dy = -4,
     hideDiff();
@@ -578,12 +578,20 @@ function moveBall(){
             ball.dx = 4;
             ball.dy = -4;
         }
-
+        function resetPaddle() {
+            paddle.x = canvas.width / 2;
+            paddle.y = canvas.height / 1.06;
+            paddle.dx = 4;
+            paddle.dy = -4;
+        }
         function resetGame() {
             score = 0;
             lives = 3;
             resetBall(); // Reset ball position
+            resetPaddle();
             showAllBricks();
+           // Reset paddle position
+            isGameActive = false;
         }  
         
 
@@ -619,12 +627,18 @@ function pausePaddle(){
 function increaseScore(){
     score++;
 
-    if(score % (brickRowCount*brickColumnCount) === 0){
+    if (score === brickRowCount * brickColumnCount){
         showAllBricks();
         document.querySelector(".win").style.display = "block";
+        document.querySelector(".win h2").textContent = "YOU WIN! Congratulations";
+        document.querySelector(".win h3").textContent = "All bricks destroyed!";
         isGameActive = false;
+        pauseBall();
+        paddle.x = canvas.width / 2 - paddle.w / 2;
+        return;
     }
 }
+
 
 // Make all bricks appear 
 function showAllBricks(){
@@ -640,22 +654,45 @@ function draw() {
     //clear canvas
     ctx.clearRect(0,0,canvas.width,canvas.height);
 
+    if (isGameActive) {
     drawBall();
     drawPaddle();
+  }
+    
     drawScore();
     drawLives();
     drawBricks();
 }
 drawBricks();
-//Update canvas drawing and animation
-function update(){
-    if (!isGameActive) return;
-    movePaddle();
-    moveBall();
-    //Draw everything
-    draw();
-   
-    requestAnimationFrame(update);
+
+function update() {
+  if (!isGameActive) return;
+
+  movePaddle();
+  moveBall();
+  draw();
+
+  // Check if all bricks are broken
+  let allBricksBroken = true;
+  for (let i = 0; i < brickRowCount; i++) {
+    for (let j = 0; j < brickColumnCount; j++) {
+      if (bricks[i][j].visible) {
+        allBricksBroken = false;
+        break;
+      }
+    }
+    if (!allBricksBroken) break;
+  }
+
+  if (allBricksBroken) {
+    document.querySelector(".win").style.display = "block";
+    document.querySelector(".win h2").textContent = "YOU WIN! Congratulations";
+    document.querySelector(".win h3").textContent = "All bricks destroyed!";
+    isGameActive = false;
+    return; // Stop the update loop
+  }
+
+  requestAnimationFrame(update);
 }
 update();
 draw();
