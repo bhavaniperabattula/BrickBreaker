@@ -312,16 +312,16 @@ const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 const diffBtn = document.getElementById('difficulty');
  const startBtn = document.querySelector('.start');
-rulesBtn.addEventListener('click', () => {
-            rules.classList.add('show');
-            startBtn.style.display = 'none'; 
-            document.getElementById('difficulty').style.display = 'none';// Hide the Start Game button when rules are shown
-        });
+ rulesBtn.addEventListener('touchstart', () => {
+    rules.classList.add('show');
+    startBtn.style.display = 'none'; // Hide Start Game button
+});
 
-        closeBtn.addEventListener('click', () => {
-            rules.classList.remove('show');
-            startBtn.style.display = 'block'; // Show the Start Game button when rules are closed
-        });
+closeBtn.addEventListener('touchstart', () => {
+    rules.classList.remove('show');
+    startBtn.style.display = 'block'; // Show Start Game button
+});
+
 let score = 0;
 let lives = 3;
 let brickRowCount = 9;
