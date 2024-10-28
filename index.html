@@ -322,6 +322,7 @@ const diffBtn = document.getElementById('difficulty');
     // Ensure paddle stays within canvas bounds
     paddle.x = Math.max(0, Math.min(canvas.width - paddle.w, relativeX - paddle.w / 2));
 });
+
 let score = 0;
 let lives = 3;
 let brickRowCount = 9;
@@ -726,21 +727,17 @@ function keyUp(e){
 //Keyboard event handlers
 document.addEventListener('keydown',keyDown);
 document.addEventListener('keyup',keyUp);
-
 canvas.addEventListener('touchmove', (e) => {
     const touchX = e.touches[0].clientX;
     const canvasRect = canvas.getBoundingClientRect();
-    const relativeX = touchX - canvasRect.left;
-    paddle.x = relativeX - paddle.w / 2;
 
-    // Prevent the paddle from going out of bounds
-    if (paddle.x < 0) {
-        paddle.x = 0;
-    } else if (paddle.x + paddle.w > canvas.width) {
-        paddle.x = canvas.width - paddle.w;
-    }
+    // Calculate the paddle's new position, ensuring it stays within bounds
+    let newX = touchX - canvasRect.left - paddle.w / 2;
+    newX = Math.max(0, Math.min(canvas.width - paddle.w, newX));
+
+    // Update the paddle's position smoothly using a lerp function (optional)
+    paddle.x += (newX - paddle.x) * 0.5; // Adjust the lerp factor as needed
 });
-
 //Rules and close event handlers
 rulesBtn.addEventListener('click',()=>
 rules.classList.add('show'));
@@ -749,8 +746,8 @@ rules.classList.add('show'));
 closeBtn.addEventListener('click',()=>
 rules.classList.remove('show'));
 
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
+
+      
 function drawBricks() {
     bricks.forEach((column, rowIndex) => {
         column.forEach(brick => {
