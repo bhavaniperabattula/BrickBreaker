@@ -182,8 +182,7 @@ h1 {
         height: 100%;
     }
 
-
-    
+ 
     /* Make the heading smaller */
     .heading {
         font-size: 25px;
@@ -198,13 +197,7 @@ h1 {
      
     }
 
-    /* Canvas size for smaller screens */
-    #canvas {
-        width: 100%;
-        height: auto;
-        border-radius: 5px;
-    }
-
+   
     /* Adjust start button position */
     .start {
         top: 120px; /* Move it just below the Show Rules button */
@@ -301,7 +294,7 @@ h1 {
                     <button class="btn" onclick="window.location.reload()">Restart</button>
                 </div>
         </div>
-        <canvas id="canvas" width="750" height="520"></canvas>
+        <canvas id="canvas" width="750" height="470"></canvas>
         
         
         <script>
@@ -312,16 +305,6 @@ const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 const diffBtn = document.getElementById('difficulty');
  const startBtn = document.querySelector('.start');
- canvas.addEventListener('touchmove', (e) => {
-    e.preventDefault(); // Prevent default scrolling behavior
-
-    const touchX = e.touches[0].clientX;
-    const canvasRect = canvas.getBoundingClientRect();
-    const relativeX = touchX - canvasRect.left;
-
-    // Ensure paddle stays within canvas bounds
-    paddle.x = Math.max(0, Math.min(canvas.width - paddle.w, relativeX - paddle.w / 2));
-});
 
 let score = 0;
 let lives = 3;
@@ -347,6 +330,7 @@ function startGame(){
     console.log("Game Started!");
     startBtn.style.display = 'none';
     diffBtn.style.display = 'block';
+    canvas.style.display = 'block';
 }
 
 // Hides Difficulty div
@@ -458,8 +442,8 @@ function createMediumBricks() {
 
 // Function to create a Diamond shape for Hard mode
 function createHardBricks() {
-  brickRowCount = 10;
-  brickColumnCount = 9;
+  brickRowCount = 8;
+  brickColumnCount = 7;
   bricks.length = 0; // Clear existing bricks
 
   for (let i = 0; i < brickRowCount; i++) {
@@ -592,11 +576,17 @@ function moveBall(){
             score = 0;
             lives = 3;
             resetBall(); // Reset ball position
-            resetPaddle();
-            showAllBricks();
-           // Reset paddle position
-            isGameActive = false;
+            resetPaddle(); // Reset paddle position
+            showAllBricks(); // Show all bricks again
+             isGameActive = false; // End the game
+             hideGameElements();
+             update(); // Hide game elements
         }  
+        function hideGameElements() {
+    canvas.style.display = 'none'; // Hide the canvas
+    document.querySelector('.start').style.display = 'none'; // Hide the start button
+    document.querySelector('.difficulty').style.display = 'none'; // Hide the difficulty options
+}
         
 
     // Hit bottom wall - Lose
@@ -630,21 +620,14 @@ function pausePaddle(){
 //Increase Score
 function increaseScore(){
     score++;
-
-    if (score === brickRowCount * brickColumnCount){
-        showAllBricks();
-        // resetBall(); // Reset ball position
-        // resetPaddle();
-        document.querySelector(".win").style.display = "block";
-        document.querySelector(".win h2").textContent = "YOU WIN! Congratulations";
-        document.querySelector(".win h3").textContent = "All bricks destroyed!";
-        
-        isGameActive = false;
-       
-        // pauseBall();
-        // paddle.x = canvas.width / 2 - paddle.w / 2;
-        return;
-    }
+    if (score === brickRowCount * brickColumnCount) {
+                    
+                    // document.querySelector(".win").style.display = "block";
+                    // document.querySelector(".lose h3").textContent = `Your Score: ${score}`;
+                    resetGame();
+                    // isGameActive = false;
+                
+            }
 }
 
 
@@ -680,8 +663,7 @@ function update() {
   moveBall();
   draw();
 
-  // Check if all bricks are broken
-  let allBricksBroken = true;
+    let allBricksBroken = true;
   for (let i = 0; i < brickRowCount; i++) {
     for (let j = 0; j < brickColumnCount; j++) {
       if (bricks[i][j].visible) {
@@ -693,15 +675,42 @@ function update() {
   }
 
   if (allBricksBroken) {
-    isGameActive = false;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    canvas.style.display = "none"; 
+    // Hide the paddle and ball
+    paddle.visible = false; // Add this property to the paddle
+    ball.visible = false;
+    
     document.querySelector(".win").style.display = "block";
     document.querySelector(".win h2").textContent = "YOU WIN! Congratulations";
-    document.querySelector(".win h3").textContent = "All bricks destroyed!";    
-    return; // Stop the update loop
-  }
-
-  requestAnimationFrame(update);
+    document.querySelector(".win h3").textContent = "All bricks destroyed!";
+   
+    isGameActive = false; // Stop the game loop
+  } else {
+    requestAnimationFrame(update); // Continue the game loop if not won
+  } // Continue the game loop
 }
+
+
+
+// Event listeners for paddle movement
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Right' || e.key === 'ArrowRight') {
+    paddle.dx = paddle.speed;
+  } else if (e.key === 'Left' || e.key === 'ArrowLeft') {
+    paddle.dx = -paddle.speed;
+  }
+});
+
+document.addEventListener('keyup', (e) => {
+  if (e.key === 'Right' || e.key === 'ArrowRight' || e.key === 'Left' || e.key === 'ArrowLeft') {
+    paddle.dx = 0;
+  }
+});
+
+// Initialize the game
+requestAnimationFrame(update); // Start the update loop
+
 update();
 draw();
 
@@ -724,20 +733,19 @@ function keyUp(e){
     }
 
 }
+
 //Keyboard event handlers
 document.addEventListener('keydown',keyDown);
 document.addEventListener('keyup',keyUp);
+
+
 canvas.addEventListener('touchmove', (e) => {
     const touchX = e.touches[0].clientX;
     const canvasRect = canvas.getBoundingClientRect();
-
-    // Calculate the paddle's new position, ensuring it stays within bounds
-    let newX = touchX - canvasRect.left - paddle.w / 2;
-    newX = Math.max(0, Math.min(canvas.width - paddle.w, newX));
-
-    // Update the paddle's position smoothly using a lerp function (optional)
-    paddle.x += (newX - paddle.x) * 0.5; // Adjust the lerp factor as needed
+    const relativeX = touchX - canvasRect.left;
+    paddle.x = relativeX - paddle.w / 2;
 });
+
 //Rules and close event handlers
 rulesBtn.addEventListener('click',()=>
 rules.classList.add('show'));
@@ -746,8 +754,6 @@ rules.classList.add('show'));
 closeBtn.addEventListener('click',()=>
 rules.classList.remove('show'));
 
-
-      
 function drawBricks() {
     bricks.forEach((column, rowIndex) => {
         column.forEach(brick => {
@@ -771,9 +777,6 @@ function drawBricks() {
     });
 }
 createEasyBricks();
-
-
-
         </script>
    
 </body>
