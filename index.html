@@ -294,7 +294,7 @@ h1 {
                     <button class="btn" onclick="window.location.reload()">Restart</button>
                 </div>
         </div>
-        <canvas id="canvas" width="750" height="470"></canvas>
+        <canvas id="canvas" width="800" height="530"></canvas>
         
         
         <script>
@@ -352,7 +352,7 @@ function easyMode(){
 // Medium Mode
 function mediumMode(){
     createMediumBricks();
-    ball.speed =3.7,
+    ball.speed =3.0,
     ball.dx = 5.2,
     ball.dy = -5.2,
     hideDiff();
@@ -363,7 +363,7 @@ function mediumMode(){
 // Difficulty Mode
 function hardMode(){
     createHardBricks();
-    ball.speed = 5.0,
+    ball.speed = 4.0,
     ball.dx = 5.9,
     ball.dy = -5.9,
     hideDiff();
@@ -421,26 +421,25 @@ function createEasyBricks() {
     }
 }
 
-
-// Function to create a Zigzag pattern for Medium mode
 function createMediumBricks() {
-    brickRowCount = 6;
-    brickColumnCount = 8;
+    brickRowCount = 6; // Number of rows
+    brickColumnCount = 10; // Number of columns
     bricks.length = 0; // Clear existing bricks
 
     for (let i = 0; i < brickRowCount; i++) {
         bricks[i] = [];
         for (let j = 0; j < brickColumnCount; j++) {
-            const x = j * (brickInfo.w + brickInfo.padding) + brickInfo.offsetX;
-            const y = i * (brickInfo.h + brickInfo.padding) + brickInfo.offsetY;
-            // Create a zigzag pattern by making every other brick row offset
-            const offset = i % 2 === 0 ? 0 : (brickInfo.w + brickInfo.padding) / 2;
-            bricks[i][j] = { x: x + offset, y, ...brickInfo, visible: true };
+            const x = j * (brickInfo.w + brickInfo.padding) + brickInfo.offsetX; // Calculate x position
+            const y = i * (brickInfo.h + brickInfo.padding) + brickInfo.offsetY; // Calculate y position
+            
+            // Create vertical stripes pattern
+            const visible = j % 2 === 0; // Make every other column visible
+            bricks[i][j] = { x, y, ...brickInfo, visible: visible };
         }
     }
 }
 
-// Function to create a Diamond shape for Hard mode
+
 function createHardBricks() {
   brickRowCount = 8;
   brickColumnCount = 7;
@@ -622,10 +621,10 @@ function increaseScore(){
     score++;
     if (score === brickRowCount * brickColumnCount) {
                     
-                    // document.querySelector(".win").style.display = "block";
-                    // document.querySelector(".lose h3").textContent = `Your Score: ${score}`;
+                    document.querySelector(".win").style.display = "block";
+                    document.querySelector(".lose h3").textContent = `Your Score: ${score}`;
                     resetGame();
-                    // isGameActive = false;
+                    isGameActive = false;
                 
             }
 }
@@ -686,9 +685,10 @@ function update() {
     document.querySelector(".win h3").textContent = "All bricks destroyed!";
    
     isGameActive = false; // Stop the game loop
-  } else {
+  } 
+ 
     requestAnimationFrame(update); // Continue the game loop if not won
-  } // Continue the game loop
+  // Continue the game loop
 }
 
 
@@ -739,11 +739,28 @@ document.addEventListener('keydown',keyDown);
 document.addEventListener('keyup',keyUp);
 
 
-canvas.addEventListener('touchmove', (e) => {
+// Touch event handling
+canvas.addEventListener('touchstart', (e) => {
+    e.preventDefault(); // Prevent default scrolling behavior
     const touchX = e.touches[0].clientX;
     const canvasRect = canvas.getBoundingClientRect();
     const relativeX = touchX - canvasRect.left;
-    paddle.x = relativeX - paddle.w / 2;
+    paddle.x = relativeX - paddle.w / 2; // Center the paddle on touch
+});
+
+canvas.addEventListener('touchmove', (e) => {
+    e.preventDefault(); // Prevent default scrolling behavior
+    const touchX = e.touches[0].clientX;
+    const canvasRect = canvas.getBoundingClientRect();
+    const relativeX = touchX - canvasRect.left;
+    paddle.x = relativeX - paddle.w / 2; // Center the paddle on touch
+
+    // Keep paddle within canvas bounds
+    if (paddle.x < 0) {
+        paddle.x = 0;
+    } else if (paddle.x + paddle.w > canvas.width) {
+        paddle.x = canvas.width - paddle.w;
+    }
 });
 
 //Rules and close event handlers
