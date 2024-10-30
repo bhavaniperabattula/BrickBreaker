@@ -376,7 +376,7 @@ function hardMode(){
 const paddle = {
     x: canvas.width/2 - 40,
     y: canvas.height - 20,
-    w : 73,
+    w : 100,
     h : 9,
     speed : 8,
     dx: 0
@@ -740,28 +740,33 @@ document.addEventListener('keyup',keyUp);
 
 
 // Touch event handling
+// Add touch functionality for paddle movement
+let isTouching = false;
+
 canvas.addEventListener('touchstart', (e) => {
-    e.preventDefault(); // Prevent default scrolling behavior
-    const touchX = e.touches[0].clientX;
-    const canvasRect = canvas.getBoundingClientRect();
-    const relativeX = touchX - canvasRect.left;
-    paddle.x = relativeX - paddle.w / 2; // Center the paddle on touch
+    isTouching = true;
+    movePaddleTouch(e);
 });
 
 canvas.addEventListener('touchmove', (e) => {
-    e.preventDefault(); // Prevent default scrolling behavior
-    const touchX = e.touches[0].clientX;
-    const canvasRect = canvas.getBoundingClientRect();
-    const relativeX = touchX - canvasRect.left;
-    paddle.x = relativeX - paddle.w / 2; // Center the paddle on touch
-
-    // Keep paddle within canvas bounds
-    if (paddle.x < 0) {
-        paddle.x = 0;
-    } else if (paddle.x + paddle.w > canvas.width) {
-        paddle.x = canvas.width - paddle.w;
+    if (isTouching) {
+        movePaddleTouch(e);
     }
 });
+
+canvas.addEventListener('touchend', () => {
+    isTouching = false;
+});
+
+// Function to move the paddle based on touch
+function movePaddleTouch(e) {
+    const touch = e.touches[0];
+    const touchX = touch.clientX - canvas.getBoundingClientRect().left;
+    
+    // Set the paddle position to the touch position, keeping it within the canvas bounds
+    paddle.x = Math.max(0, Math.min(canvas.width - paddle.w, touchX - paddle.w / 2));
+}
+
 
 //Rules and close event handlers
 rulesBtn.addEventListener('click',()=>
