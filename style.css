@@ -213,13 +213,13 @@
         /* Adjust start button position */
         .start {
             top: 7.5rem; /* Move it just below the Show Rules button */
-            bottom: auto;
+            bottom: 10px;
             width: 100%;
         }
        
         /* Difficulty buttons container */
         .difficulty {
-            top: 10rem;
+            top: 8rem;
             width: 60%;
             padding: 15px 30px;
             font-size: 12px;
@@ -229,7 +229,7 @@
         .lose, .win {
             width: 70%;
             padding: 15px;
-            top: 12.5rem;
+            top: 10rem;
         }
         .win{
             font-size: small;
@@ -252,6 +252,7 @@
         .start-btn {
             width: 11.25rem;
             font-size: 18px;
+            bottom: 10px;
         }
     
         /* Difficulty buttons */
