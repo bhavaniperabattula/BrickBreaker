@@ -232,8 +232,7 @@
             top: 12.5rem;
         }
         .win{
-            font-size: small;
-            padding: 20px;
+            font-size: smaller;
         }
     
         /* Adjust brick and paddle sizes */
