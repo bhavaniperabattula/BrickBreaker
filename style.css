@@ -213,7 +213,7 @@
         /* Adjust start button position */
         .start {
             top: 7.5rem; /* Move it just below the Show Rules button */
-            bottom: auto;
+            bottom: 13px;
             width: 100%;
         }
        
@@ -223,7 +223,8 @@
             width: 60%;
             padding: 15px 30px;
             font-size: 12px;
-            margin-top: 15px;
+            margin-bottom: 10px;
+            
         }
     
         /* Game over and win notifications */
