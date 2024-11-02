@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
-        * {
+       
+       * {
     box-sizing: border-box;
 }
 
@@ -23,8 +24,8 @@ body {
 /* Rules button  */
 .rules-btn {
     position: absolute;
-    top: 35px;
-    left: 30px;
+    top: 2.1875rem;
+  left: 1.875rem;
 }
 
 /* Rules to play the game */
@@ -35,8 +36,8 @@ body {
     background: #333;
     color: white;
     min-height: 100vh;
-    width: 400px;
-    padding: 20px;
+    width: 25rem;
+    padding: 1.25rem;
     line-height: 1.5;
     transform: translateX(-400px);
     transition: transform 0.5s ease-in-out;
@@ -86,14 +87,14 @@ h1 {
 }
 .start {
     position: absolute;
-    top: 350px;
+    top: 21.875rem;
     color: white; 
     padding-top: 50px;
     border-radius: 10px;
     text-align: center;
     animation: pop-in 0.5s ease-in-out;
-    width: 350px;
-    height: 75px;
+    width: 21.875rem;
+    height: 4.6875rem;
 }
 
 .start-btn {
@@ -103,7 +104,7 @@ h1 {
     background: linear-gradient(45deg, #ff9800, #ffc107);
     color: white;
     border-radius: 5px;
-    width: 220px;
+    width: 13.75rem;
     font-size: 24px;
     height: auto;
     transition: background 0.3s ease;
@@ -120,7 +121,7 @@ h1 {
 .difficulty {
     position: absolute;
     display: none;
-    top: 350px;
+    top: 23.125rem;
     background: rgba(0, 0, 0, 0.9);
     color: white;
     padding: 20px 50px;
@@ -153,7 +154,7 @@ h1 {
 .lose, .win {
     display: none;
     position: absolute;
-    top: 250px;
+    top: 15.625rem;
     background: rgba(0, 159, 221, 0.9);
     color: white;
     padding: 20px 50px;
@@ -171,6 +172,24 @@ h1 {
     to {
         transform: scale(1);
         opacity: 1;
+    }
+}
+/* Add this to your existing CSS */
+#touch {
+    display: none; /* Hide by default */
+}
+
+@media (max-width: 576px) {
+    #touch {
+        display: flex; /* Show in mobile view */
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    #leftBtn, #rightBtn {
+        padding: 10px 20px;
+        font-size: 20px;
+        margin: 0 10px;
     }
 }
 
@@ -197,17 +216,17 @@ h1 {
      
     }
 
-   
+  
     /* Adjust start button position */
     .start {
-        top: 120px; /* Move it just below the Show Rules button */
+        top: 7.5rem; /* Move it just below the Show Rules button */
         bottom: auto;
         width: 100%;
     }
    
     /* Difficulty buttons container */
     .difficulty {
-        top: 160px; 
+        top: 10rem;
         width: 60%;
         padding: 15px 30px;
         font-size: 12px;
@@ -217,15 +236,15 @@ h1 {
     .lose, .win {
         width: 70%;
         padding: 15px;
-        top: 200px;
+        top: 12.5rem;
     }
 
     /* Adjust brick and paddle sizes */
     .rules-btn {
-        top: 100px;
+        top: 6.25rem;
         font-size: 15px;
         padding: 10px 16px;
-        width: 160px;
+        width: 10rem;
         flex: 1;
     display: flex;
     justify-content: center;
@@ -234,7 +253,7 @@ h1 {
 
     /* Start button */
     .start-btn {
-        width: 180px;
+        width: 11.25rem;
         font-size: 18px;
     }
 
@@ -247,8 +266,8 @@ h1 {
 
     /* Canvas height increase for smaller screens */
     #canvas {
-        width: 100%;
-        height: 350px; /* Increase the height as needed */
+        width: 92%;
+height: 17.5rem; /* Increase the height as needed */
     }
 
     /* Paddle adjustment */
@@ -256,8 +275,148 @@ h1 {
         width: 50%;
         margin-bottom: 10px;
     }
+    .hidden-mobile {
+    display: none;
 }
 
+}
+@media (min-width: 577px) {
+  .win, .lose {
+    width: 40%; /* Adjust the width as needed */
+    padding: 30px;
+    height: 40%;
+    font-size: 25px; /* Increase font size */
+  }
+}
+
+
+/* Small Screens (max-width: 576px) */
+@media (max-width: 576px) {
+    body {
+        padding: 10px;
+    }
+    
+    h1 {
+        font-size: 24px;
+        margin-top: 20px;
+    }
+
+    .rules-btn {
+        top: 6.25rem;
+        left: 1.25rem;
+        padding: 8px 12px;
+    }
+
+    .rules {
+        width: 100%;
+        padding: 15px;
+        transform: translateX(-100%);
+    }
+
+    .start-btn {
+        font-size: 18px;
+        padding: 8px 18px;
+    }
+
+    .difficulty, .lose, .win {
+        width: 90%;
+        padding: 15px;
+        font-size: 16px;
+    }
+
+    /* Canvas and paddle adjustments for smaller screens */
+    .canvas {
+        width: 95%;
+        height: 90%; /* Make height responsive */
+    }
+
+    #touch {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    #leftBtn, #rightBtn {
+        padding: 10px 20px;
+        font-size: 20px;
+        margin: 0 10px;
+    }
+}
+
+/* Medium Screens (min-width: 577px and max-width: 768px) */
+@media (min-width: 577px) and (max-width: 768px) {
+    h1 {
+        font-size: 36px;
+    }
+
+    .rules {
+        width: 20rem;
+    }
+
+    .start-btn {
+        font-size: 22px;
+    }
+
+    .difficulty, .lose, .win {
+        width: 80%;
+        padding: 20px;
+    }
+
+    #canvas {
+        width: 85%;
+        height: 400px;
+    }
+}
+
+/* Large Screens (min-width: 769px and max-width: 992px) */
+@media (min-width: 769px) and (max-width: 992px) {
+    h1 {
+        font-size: 42px;
+    }
+
+    .rules {
+        width: 22rem;
+    }
+
+    .start-btn {
+        font-size: 24px;
+    }
+
+    .difficulty, .lose, .win {
+        width: 70%;
+        padding: 25px;
+    }
+
+    #canvas {
+        width: 80%;
+        height: 450px;
+    }
+}
+
+/* Extra Large Screens (min-width: 993px) */
+@media (min-width: 993px) {
+    h1 {
+        font-size: 48px;
+    }
+
+    .rules {
+        width: 25rem;
+    }
+
+    .start-btn {
+        font-size: 26px;
+    }
+
+    .difficulty, .lose, .win {
+        width: 36%;
+        padding: 30px;
+    }
+
+    #canvas {
+        width: 800px;
+        height: 510px;
+    }
+}
 
     </style>
 </head>
@@ -291,12 +450,14 @@ h1 {
                 <div class="win">
                     <h2>YOU WIN! Congratulations</h2>
                     <!-- <h3>Winner winner chicken dinner!</h3> -->
-                    <button class="btn" onclick="window.location.reload()">Restart</button>
+                    <button class="btn" onclick="window.location.reload()">Play Again</button>
                 </div>
         </div>
-        <canvas id="canvas" width="800" height="530"></canvas>
-        
-        
+        <canvas id="canvas" width="800" height="510"></canvas>
+        <div id="touch">
+            <button id="leftBtn">←</button>
+            <button id="rightBtn">→</button>
+        </div>
         <script>
 const rulesBtn = document.getElementById('rules-btn');
 const closeBtn = document.getElementById('close-btn');
@@ -305,7 +466,9 @@ const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 const diffBtn = document.getElementById('difficulty');
  const startBtn = document.querySelector('.start');
-
+ const leftBtn = document.getElementById('leftBtn');
+    const rightBtn = document.getElementById('rightBtn');
+    const touchBtn = document.getElementById('touch');
 let score = 0;
 let lives = 3;
 let brickRowCount = 9;
@@ -486,7 +649,7 @@ function drawScore(){
 
 function drawLives() {
             ctx.font = '20px Arial';
-            ctx.fillText(`Lives: ${lives}`, canvas.width - 730, 30);
+            ctx.fillText(`Lives: ${lives}`, canvas.width - 770, 30);
         }
 
 //Move Paddle on canvas
@@ -715,8 +878,20 @@ update();
 draw();
 
 
+leftBtn.addEventListener('click', () => {
+  paddle.dx = -5;
+});
 
+rightBtn.addEventListener('click', () => {
+  paddle.dx = 5;
+});
 
+if (isMobileView()) {
+    startBtn.classList.add("hidden-mobile");
+}
+if (isMobileView()) {
+    startBtn.classList.remove("hidden-mobile");
+}
 //Keydown event
 function keyDown(e){
     if(e.key === 'Right' || e.key === 'ArrowRight') {
@@ -739,6 +914,9 @@ document.addEventListener('keydown',keyDown);
 document.addEventListener('keyup',keyUp);
 
 
+
+// Touch event handling
+// Add touch functionality for paddle movement
 // Touch event handling
 // Add touch functionality for paddle movement
 let isTouching = false;
@@ -764,9 +942,13 @@ function movePaddleTouch(e) {
     const touchX = touch.clientX - canvas.getBoundingClientRect().left;
     
     // Set the paddle position to the touch position, keeping it within the canvas bounds
-    paddle.x = Math.max(0, Math.min(canvas.width - paddle.w, touchX - paddle.w / 2));
+    paddle.x = touchX - paddle.w / 2;
 }
 
+// You can also add a touchend event that stops the paddle movement
+canvas.addEventListener('touchend', () => {
+    paddle.dx = 0; // Stop moving the paddle when touch ends
+});
 
 //Rules and close event handlers
 rulesBtn.addEventListener('click',()=>
@@ -775,6 +957,45 @@ rules.classList.add('show'));
 
 closeBtn.addEventListener('click',()=>
 rules.classList.remove('show'));
+
+// Function to check if the view is mobile
+function isMobileView() {
+    return window.innerWidth <= 576; // Adjust this value for your mobile breakpoint
+}
+
+// Function to toggle arrow buttons based on the view
+function toggleArrowButtons() {
+    const touchButtons = document.getElementById('touch');
+    if (isMobileView()) {
+        touchButtons.style.display = 'flex'; // Show the buttons
+    } else {
+        touchButtons.style.display = 'none'; // Hide the buttons
+    }
+}
+
+// Call the function on load
+toggleArrowButtons();
+
+// Add an event listener to handle window resize
+window.addEventListener('resize', toggleArrowButtons);
+
+function isMobileView() {
+    return window.innerWidth <= 768;  // Adjust this value for your mobile breakpoint
+}
+
+rulesBtn.addEventListener("click", () => {
+  
+    if (isMobileView()) {
+        startBtn.classList.add("hidden-mobile");
+    }
+});
+
+closeBtn.addEventListener("click", () => {
+
+    if (isMobileView()) {
+        startBtn.classList.remove("hidden-mobile");
+    }
+});
 
 function drawBricks() {
     bricks.forEach((column, rowIndex) => {
